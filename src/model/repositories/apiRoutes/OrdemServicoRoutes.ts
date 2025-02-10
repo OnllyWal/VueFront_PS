@@ -16,7 +16,7 @@ class OrdemServicoRoutes {
 
     //RemoverItem
     get delete(): string {
-        return `${this.name}`;
+        return `${this.name}/item`;
     };
 };
 

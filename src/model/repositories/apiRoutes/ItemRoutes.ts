@@ -6,7 +6,7 @@ class ItemRoutes {
 
     constructor(config: BaseConfig) {
         this.config = config;
-        this.name = 'item';
+        this.name = 'Item';
     };
 
     //ObterItem

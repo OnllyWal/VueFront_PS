@@ -3,10 +3,9 @@ import ItemRepository from '@/model/repositories/ItemRepository';
 
 export default class ItemController {
   itemRepository;
-
-    constructor() {
-      this.itemRepository = new ItemRepository();
-    }
+  constructor() {
+    this.itemRepository = new ItemRepository();
+  }
 
   async getItens() {
     return await this.itemRepository.getItens();

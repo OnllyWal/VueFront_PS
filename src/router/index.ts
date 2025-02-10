@@ -4,17 +4,29 @@ export const router = createRouter({
     history: createWebHistory('/'),
     routes: [
         {
-            path: '/',
-            component: () => import('@/view/index-cidade.vue')
+          path: '/',
+          component: () => import('@/view/Home.vue')
         },
         {
-            path: '/cliente',
-            component: () => import('@/view/index-cliente.vue')
+          path: '/equipamento',
+          component: () => import('@/view/EquipamentoIndex.vue')
         },
         {
-            path: '/pedido',
-            component: () => import('@/view/index-pedido.vue')
+          path: '/item',
+          component: () => import('@/view/ItemIndex.vue')
         },
+        {
+          path: '/manutencao',
+          component: () => import('@/view/ManutencaoIndex.vue')
+        },
+        {
+        path: '/modelo',
+        component: () => import('@/view/ModeloIndex.vue')
+        },
+        //{
+          //path: '/servico',
+          //component: () => import('@/view/OrdemServicoIndex.vue')
+        //}
     ]
 });
 
