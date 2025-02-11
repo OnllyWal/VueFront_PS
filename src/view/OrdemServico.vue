@@ -6,6 +6,8 @@
   import ItemController from '@/controller/ItemController';
   import { type IEquipamento } from '@/model/Equipamento';
   import EquipamentoController from '@/controller/EquipamentoController';
+  import ManutencaoController from '@/controller/ManutencaoController';
+import { Manutencao, type IManutencao } from '@/model/Manutencao';
 
   const snackbar = ref(false);
   const mensagemSnackbar = ref('');
@@ -27,11 +29,14 @@
   const equipamentoController = new EquipamentoController();
   const itemController = new ItemController();
   const ordemServicoController = new OrdemServicoController();
+  const manutencaoController = new ManutencaoController();
 
   //Listas
   const Ordens = ref<IOrdemServico[]>([]);
   const Itens = ref<IItem[]>([]);
   const Equipamentos = ref<IEquipamento[]>([]);
+  const Manutencoes = ref<IManutencao[]>([]);
+
 
   //pop-ups(input)
   const dialog = ref(false)         //Criação
@@ -46,6 +51,10 @@
 
   const listarEquipamentos = async () => {
     Equipamentos.value = await equipamentoController.listarEquipamentos();
+  }
+
+  const listarManutencoes = async () => {
+    Manutencoes.value = await manutencaoController.listarManutencoes();
   }
 
   //Completa Manutenções com a lista de itens(descrição)
@@ -74,6 +83,7 @@
     completarOrdens();
     listarItens();
     listarEquipamentos();
+    listarManutencoes();
     console.log(Ordens)
   })
 
@@ -135,7 +145,6 @@
           { title: 'Data Abertura', key: 'dataAbertura' },
           { title: 'Data Finalização', key: 'dataFinalizacao' },
           { title: 'IdManutencao', key: 'idManutencao' },
-          { title: 'Itens', key: 'itens' },
         ]"
         :items="Ordens"
         class="elevation-1"
@@ -191,28 +200,19 @@
               outlined
             ></v-text-field>
 
-            <!-- Id do Modelo -->
-            <label class="required-label">IdManutencao</label>
-            <v-text-field
-              v-model="ord.idManutencao"
-              type="number"
-              label="Status da OrdemServico"
-              class="mb-4"
-              outlined
-            ></v-text-field>
-
-            <!-- Seleção Itens -->
-            <label class="required-label">Itens</label>
+            <!-- Selecionar Equipamento-->
+            <label class="required-label">Manutenção</label>
             <v-select
-              v-model="ord.itens"
-              :items="Itens"
-              item-title="descricao"
+              v-model="ord.idManutencao"
+              :items="Manutencoes"
+              item-title="tipo"
               item-value="id"
-              label="Selecione os Itens"
-              multiple
+              label="Selecione a Manutenção"
               outlined
               class="mb-4"
             ></v-select>
+
+            
           </v-form>
         </v-card-text>
 
