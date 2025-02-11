@@ -39,6 +39,7 @@
   //Quando ligar
   onMounted(() => {
     listarItems();
+    console.log(Items)
   })
 
   //Criar
@@ -85,7 +86,8 @@
       <!-- Tabela de Bolsas -->
       <v-data-table
         :headers="[
-          { title: 'Tipo', key: 'Tipo' },
+          { title: 'Id', key: 'id' },
+          { title: 'Tipo', key: 'tipo' },
           { title: 'Unidade de Medida', key: 'unidadeDeMedida' },
           { title: 'Descrição', key: 'descricao' },
           { title: 'Quantidade', key: 'quantidade' }
@@ -95,12 +97,13 @@
       >
         <template v-slot:item="{ item }">
           <tr>
-            <td>  {{ item.Tipo }}  </td>
+            <td>  {{ item.id }}  </td>
+            <td>  {{ item.tipo }}  </td>
             <td>  {{ item.unidadeDeMedida }} </td>
             <td>  {{ item.descricao }}  </td>
             <td>  {{ item.quantidade }}  </td>
             <td style="display: flex; gap: 0.5rem; align-items: center;">
-              <v-btn icon color="red" size="small" @click="excluirItem(item.Id!)">
+              <v-btn icon color="red" size="small" @click="excluirItem(item.id!)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </td>
@@ -122,7 +125,7 @@
             <!-- Tipo de Item -->
             <label class="required-label">Tipo</label>
             <v-text-field
-              v-model="sitem.Tipo"
+              v-model="sitem.tipo"
               type="text"
               label="Tipo de Item"
               class="mb-4"
@@ -143,7 +146,7 @@
             <label class="required-label">Descrição</label>
             <v-text-field
               v-model="sitem.descricao"
-              type="number"
+              type="text"
               label="Descrição do Item"
               class="mb-4"
               outlined
@@ -152,7 +155,7 @@
             <!-- Quantidade -->
             <label class="required-label"> Quantidade</label>
             <v-text-field
-              v-model="sitem.descricao"
+              v-model="sitem.quantidade"
               type="number"
               label="Quantidade"
               class="mb-4"

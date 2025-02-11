@@ -6,7 +6,7 @@ class EquipamentoRoutes {
 
     constructor(config: BaseConfig) {
         this.config = config;
-        this.name = 'equipamento';
+        this.name = 'Equipamento';
     };
 
     //GetEquipamento

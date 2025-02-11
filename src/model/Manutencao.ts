@@ -1,31 +1,31 @@
 import {Item} from './Item';
 
 export interface IManutencao {
-  Id: number;
-  Tipo: string;
-  Recorrencia: number;
-  Status: string;
-  Itens: Item[];
+  id: number;
+  tipo: string;
+  recorrencia: number;
+  status: string;
+  itens: Item[];
 }
 
 export class Manutencao implements IManutencao {
-  Id: number;
-  Tipo: string;
-  Recorrencia: number;
-  Status: string;
-  Itens: Item[] = [];
+  id: number;
+  tipo: string;
+  recorrencia: number;
+  status: string;
+  itens: Item[] = [];
 
   public constructor(
-    Id: number,
-    Tipo: string,
-    Recorrencia: number,
-    Status: string,
-    Itens: Item[] = []
+    id: number,
+    tipo: string,
+    recorrencia: number,
+    status: string,
+    itens: Item[] = []
   ){
-    this.Id = Id;
-    this.Tipo = Tipo;
-    this.Recorrencia = Recorrencia;
-    this.Status = Status;
-    this.Itens = Itens;
+    this.id = id;
+    this.tipo = tipo;
+    this.recorrencia = recorrencia;
+    this.status = status;
+    this.itens = itens;
 }
 }

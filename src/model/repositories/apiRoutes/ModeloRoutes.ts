@@ -6,7 +6,7 @@ class ModeloRoutes {
 
     constructor(config: BaseConfig) {
         this.config = config;
-        this.name = 'modelo';
+        this.name = 'Modelo';
     };
 
     //ObterModelo

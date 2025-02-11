@@ -1,20 +1,20 @@
 export interface IEquipamento {
-    Id: number;
-    Tipo: string;
-    IdModelo: number;
-    HorimetroOuOdometro: number;
+    id: number;
+    tipo: string;
+    idModelo: number;
+    horimetroOuOdometro: number;
 }
 
 export class Equipamento implements IEquipamento {
     public constructor (
-      public Id: number, 
-      public Tipo: string, 
-      public IdModelo: number, 
-      public HorimetroOuOdometro: number
+      public id: number,
+      public tipo: string,
+      public idModelo: number,
+      public horimetroOuOdometro: number
     ){
-      this.Id = Id;
-      this.Tipo = Tipo;
-      this.IdModelo = IdModelo;
-      this.HorimetroOuOdometro = HorimetroOuOdometro;
+      this.id = id;
+      this.tipo = tipo;
+      this.idModelo = idModelo;
+      this.horimetroOuOdometro = horimetroOuOdometro;
     }
 }

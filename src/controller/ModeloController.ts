@@ -11,6 +11,10 @@ export default class ModeloController {
     return await this.ModeloRepository.obterModelo(Id);
   }
 
+  async listarModelos() {
+    return await this.ModeloRepository.listarModelos();
+  }
+
   async cadastrarModelo(form: IModelo) {
     return await this.ModeloRepository.cadastrarModelo(form);
   }

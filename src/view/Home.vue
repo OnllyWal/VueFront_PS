@@ -4,9 +4,9 @@
     <!-- Banner de Boas-Vindas -->
     <v-row class="welcome-banner" justify="center">
       <v-col cols="12" md="8" class="text-left">
-        <h1 class="text-h3 font-weight-bold mb-4">Bem-vindo ao coLAB!</h1>
+        <h1 class="text-h3 font-weight-bold mb-4">Gerenciador De Manutenções!</h1>
         <p class="text-h6 mb-6">
-          Utilize a sidebar ao lado para interagir com as abas de Bolsas, Financiadores, Pessoas ou Projetos.
+          Utilize a sidebar ao lado para interagir com as abas de Gerenciamento.
         </p>
       </v-col>
     </v-row>

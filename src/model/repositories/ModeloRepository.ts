@@ -21,16 +21,29 @@ export default class ModeloRepository {
   async obterModelo(Id: number) {
       try {
           const baseRoute = `${this.createBaseRoute()}/${Id}`;
-  
+
           const response = await this.apiClient.get(baseRoute);
-  
-          return new Modelo(response.data.Id, response.data.Tipo, response.data.Marca, response.data.Manutencoes);
+
+          return new Modelo(response.data.id, response.data.tipo, response.data.marca, response.data.manutencoes);
         } catch (error) {
         console.error("Erro ao buscar Modelo", error);
         throw error;
       }
     }
-  
+
+  async listarModelos() {
+    try {
+      const baseRoute = this.createBaseRoute();
+
+      const response = await this.apiClient.get(baseRoute);
+
+      return response.data.map((modelo: IModelo) => new Modelo(modelo.id, modelo.tipo, modelo.marca, modelo.manutencoes));
+    } catch (error) {
+      console.error("Erro ao buscar Itens", error);
+      throw error
+    }
+  }
+
   async cadastrarModelo(form: IModelo) {
     try {
       const baseRoute = this.createBaseRoute();
@@ -43,7 +56,7 @@ export default class ModeloRepository {
       throw error;
     }
   }
-  
+
   async excluirModelo(Id: number) {
     try {
       const deleteRoute = this.createDeleteRoute(Id);
@@ -62,8 +75,8 @@ export default class ModeloRepository {
         const baseRoute = `${this.createBaseRoute()}/${Id}/manutencoes`;
 
         const response = await this.apiClient.get(baseRoute);
-        
-        return response.data.map((manutencao: IManutencao) => new Manutencao(manutencao.Id, manutencao.Tipo, manutencao.Recorrencia, manutencao.Status, manutencao.Itens));
+
+        return response.data.map((manutencao: IManutencao) => new Manutencao(manutencao.id, manutencao.tipo, manutencao.recorrencia, manutencao.status, manutencao.itens));
     } catch (error) {
       console.error("Erro ao buscar equipamentos", error);
       throw error;
@@ -72,7 +85,7 @@ export default class ModeloRepository {
 
   async adicionarManutencao(Id: number, IdManutencao: number) {
     try {
-      const baseRoute = `${this.createBaseRoute()}/${Id}/manutencao`
+      const baseRoute = `${this.createBaseRoute()}/${Id}/${IdManutencao}`
 
       const response = await this.apiClient.post(baseRoute, IdManutencao)
       return response;

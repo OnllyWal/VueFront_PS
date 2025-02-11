@@ -1,39 +1,39 @@
 import { Item } from './Item'; // Certifique-se de importar a classe Item corretamente
 
 export interface IOrdemServico {
-  Id: number;
+  id: number;
   idEquipamento: number;
   status: string;
   dataAbertura: Date;
   dataFinalizacao: Date;
   idManutencao: number;
-  Itens: Item[];
+  itens: Item[];
 }
 
 export class OrdemServico {
-  Id: number;
+  id: number;
   idEquipamento: number;
   status: string;
   dataAbertura: Date;
   dataFinalizacao: Date;
   idManutencao: number;
-  Itens: Item[] = []; // Inicializando como um array vazio
+  itens: Item[] = []; // Inicializando como um array vazio
 
   constructor(
-    Id: number,
+    id: number,
     idEquipamento: number,
     status: string,
     dataAbertura: Date,
     dataFinalizacao: Date,
     idManutencao: number,
-    Itens: Item[] = []
+    itens: Item[] = []
   ){
-    this.Id = Id;
+    this.id = id;
     this.idEquipamento = idEquipamento;
     this.status = status;
     this.dataAbertura = dataAbertura;
     this.dataFinalizacao = dataFinalizacao;
     this.idManutencao = idManutencao;
-    this.Itens = Itens;
+    this.itens = itens;
   }
 }

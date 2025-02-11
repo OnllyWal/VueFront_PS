@@ -6,17 +6,12 @@ class OrdemServicoRoutes {
 
     constructor(config: BaseConfig) {
         this.config = config;
-        this.name = 'ordemservico';
+        this.name = 'OrdemServico';
     };
 
     //AbrirOrdemServico
     get entity(): string {
         return `${this.name}`;
-    };
-
-    //RemoverItem
-    get delete(): string {
-        return `${this.name}/item`;
     };
 };
 

@@ -1,8 +1,7 @@
 // src/repositories/ProductRepository.js
 import api from '@/services/api';
-import {type IOrdemServico } from '../OrdemServico';
+import {type IOrdemServico, OrdemServico } from '../OrdemServico';
 import OrdemServicoRoutes from './apiRoutes/OrdemServicoRoutes';
-import { Item, type IItem } from '../Item';
 
 export default class OrdemServicoRepository {
   apiClient;
@@ -13,11 +12,7 @@ export default class OrdemServicoRepository {
   createBaseRoute() {
     return new OrdemServicoRoutes({}).entity;
   }
-
-  createDeleteRoute() {
-    return new OrdemServicoRoutes({}).delete;
-  }
-
+  
   async abrir(form: IOrdemServico) {
     try {
         const baseRoute = `${this.createBaseRoute()}/abrir`;
@@ -44,41 +39,41 @@ export default class OrdemServicoRepository {
     }
   }
 
-  async adicionarItem(form: IItem) {
+  async getOrdem(Id: number) {
     try {
-      const baseRoute = `${this.createBaseRoute()}/item`;
-
-      const response = await this.apiClient.post(baseRoute, form);
-
-      return response;
-    } catch (error) {
-      console.error("Erro ao adicionar item", error);
-      throw error;
-    }
-  }
-
-  async removerItem() {
-    try {
-      const baseRoute = `${this.createDeleteRoute()}/item`;
-
-      const response = await this.apiClient.delete(baseRoute);
-
-      return response;
-    } catch (error) {
-      console.error("Erro ao remover item", error);
-      throw error;
-    }
-  }
-
-  async listarItens() {
-    try {
-      const baseRoute = `${this.createBaseRoute()}/itens`;
+      const baseRoute = `${this.createBaseRoute()}/${Id}`;
 
       const response = await this.apiClient.get(baseRoute);
 
-      return response.data.map((item: IItem) => new Item(item.Id, item.Tipo, item.unidadeDeMedida, item.descricao, item.quantidade));
+      return new OrdemServico(response.data.id,
+        response.data.idEquipamento,
+        response.data.status,
+        response.data.dataAbertura,
+        response.data.dataFinalizacao,
+        response.data.idManutencao,
+        response.data.itens);
     } catch (error) {
-      console.error("Erro ao buscar equipamentos", error);
+      console.error("Erro ao get Ordem", error);
+      throw error;
+    }
+  }
+
+  async listOrdens() {
+    try {
+      const baseRoute = this.createBaseRoute();
+
+      const response = await this.apiClient.get(baseRoute);
+
+      return response.data.map((ordem: IOrdemServico) =>
+        new OrdemServico(ordem.id,
+                        ordem.idEquipamento,
+                        ordem.status,
+                        ordem.dataAbertura,
+                        ordem.dataFinalizacao,
+                        ordem.idManutencao,
+                        ordem.itens));
+    } catch (error) {
+      console.error("Erro ao remover item", error);
       throw error;
     }
   }

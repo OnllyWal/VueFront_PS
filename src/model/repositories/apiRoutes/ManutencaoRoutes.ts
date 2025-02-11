@@ -6,7 +6,7 @@ class ManutencaoRoutes {
 
     constructor(config: BaseConfig) {
         this.config = config;
-        this.name = 'manutencao';
+        this.name = 'Manutencao';
     };
 
     //ObterManutencao

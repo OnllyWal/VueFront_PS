@@ -20,13 +20,13 @@ export const router = createRouter({
           component: () => import('@/view/ManutencaoIndex.vue')
         },
         {
-        path: '/modelo',
-        component: () => import('@/view/ModeloIndex.vue')
+          path: '/modelo',
+          component: () => import('@/view/ModeloIndex.vue')
         },
-        //{
-          //path: '/servico',
-          //component: () => import('@/view/OrdemServicoIndex.vue')
-        //}
+        {
+          path: '/servico',
+          component: () => import('@/view/OrdemServico.vue')
+        },
     ]
 });
 

@@ -24,7 +24,7 @@ export default class ItemRepository {
 
         const response = await this.apiClient.get(baseRoute);
 
-        return new Item(response.data.Id, response.data.Tipo, response.data.unidadeDeMedida, response.data.descricao, response.data.quantidade);
+        return new Item(response.data.id, response.data.tipo, response.data.unidadeDeMedida, response.data.descricao, response.data.quantidade);
       } catch (error) {
       console.error("Erro ao buscar Item", error);
       throw error;
@@ -37,7 +37,7 @@ export default class ItemRepository {
 
         const response = await this.apiClient.get(baseRoute);
 
-        return response.data.map((item: IItem) => new Item(item.Id, item.Tipo, item.unidadeDeMedida, item.descricao, item.quantidade));
+        return response.data.map((item: IItem) => new Item(item.id, item.tipo, item.unidadeDeMedida, item.descricao, item.quantidade));
     } catch (error) {
       console.error("Erro ao buscar Itens", error);
       throw error
@@ -47,16 +47,16 @@ export default class ItemRepository {
   async cadastrarItem(form: IItem) {
       try {
           const baseRoute = this.createBaseRoute();
-  
+
           const response = await this.apiClient.post(baseRoute, form);
-  
+
           return response;
       } catch (error) {
         console.error("Erro ao criar item", error);
         throw error;
       }
     }
-  
+
   async excluirItem(Id: number) {
     try {
       const deleteRoute = this.createDeleteRoute(Id);

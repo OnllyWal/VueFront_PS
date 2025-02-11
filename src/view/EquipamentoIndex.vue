@@ -2,6 +2,8 @@
   import { ref, onMounted } from 'vue';
   import EquipamentoController from '@/controller/EquipamentoController';
   import { type IEquipamento, Equipamento } from '@/model/Equipamento';
+  import {type IModelo} from '@/model/Modelo';
+  import ModeloController from '@/controller/ModeloController';
 
   const snackbar = ref(false);
   const mensagemSnackbar = ref('');
@@ -22,24 +24,31 @@
   //Instancias Controllers
 
   const equipamentoController = new EquipamentoController();
+  const modeloController = new ModeloController();
 
   //Listas
   const equipamentos = ref<IEquipamento[]>([]);
+  const modelos = ref<IModelo[]>([]);
 
 
   //Editável
-  const dialog = ref(false)
-  const dialogEdit = ref(false)
+  const dialog = ref(false);
+  const dialogEdit = ref(false);
   const equip = ref<IEquipamento>( new Equipamento(0,'', 0, 0));
 
   //Listar
   const listarequipamentos = async () => {
     equipamentos.value = await equipamentoController.listarEquipamentos()
-  }
+  };
+  const listarModelos = async () => {
+    modelos.value = await modeloController.listarModelos();
+  };
 
   //Quando ligar
   onMounted(() => {
     listarequipamentos();
+    listarModelos();
+    console.log(equipamentos)
   })
 
   //Criar
@@ -52,7 +61,7 @@
   const editarEquipamento = (equipamento: IEquipamento) => {
     equip.value = {
       ...equipamento,
-      HorimetroOuOdometro: equipamento.HorimetroOuOdometro,
+      horimetroOuOdometro: equipamento.horimetroOuOdometro,
     };
     dialogEdit.value = true;
   };
@@ -71,18 +80,25 @@
     }
   };
 
+  const atualizarHorimetro = async () => {
+    try{
+      await equipamentoController.atualizarHorimetro(equip.value.id, equip.value.horimetroOuOdometro)
+    } catch (error){
+      console.error("Erro ao salvar Horimetro:", error);
+      snackbarError('Erro ao salvar Horimetro.');
+    }
+  };
+
   const salvarEquipamento = async () => {
     try{
-      if (equip.value.Id) {
-        await equipamentoController.atualizarHorimetro(equip.value.Id, equip.value.HorimetroOuOdometro);
-        snackbarSuccess('Uso Atualizado');
-      }
-      else {
         await equipamentoController.cadastrarEquipamento(equip.value);
+        console.log(equip.value.idModelo)
+        console.log(equip.value.horimetroOuOdometro)
         snackbarSuccess('Equipamento Cadastrado');
-      }
-      dialog.value = false;
-      dialogEdit.value = false;
+        console.log(equip.value)
+        dialog.value = false;
+        dialogEdit.value = false;
+        await listarequipamentos()
     } catch (error) {
       console.error("Erro ao salvar equipamento:", error);
       snackbarError('Erro ao salvar equipamento.');
@@ -102,23 +118,25 @@
       <!-- Tabela de Bolsas -->
       <v-data-table
         :headers="[
-          { title: 'Tipo', key: 'Tipo' },
-          { title: 'Modelo', key: 'IdModelo' },
-          { title: 'Uso', key: 'HorimetroOuOdometro' },
+          { title: 'Id', key: 'id' },
+          { title: 'Tipo', key: 'tipo' },
+          { title: 'IdModelo', key: 'idModelo' },
+          { title: 'Uso', key: 'horimetroOuOdometro' },
         ]"
         :items="equipamentos"
         class="elevation-1"
       >
         <template v-slot:item="{ item }">
           <tr>
-            <td>  {{ item.Tipo }}  </td>
-            <td>  {{ item.IdModelo }} </td>
-            <td>  {{ item.HorimetroOuOdometro }}  </td>
+            <td>  {{ item.id }}  </td>
+            <td>  {{ item.tipo }}  </td>
+            <td>  {{ item.idModelo }} </td>
+            <td>  {{ item.horimetroOuOdometro }}  </td>
             <td style="display: flex; gap: 0.5rem; align-items: center;">
               <v-btn icon color="blue" size="small" @click="editarEquipamento(item)">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
-              <v-btn icon color="red" size="small" @click="excluirEquipamento(item.Id!)">
+              <v-btn icon color="red" size="small" @click="excluirEquipamento(item.id!)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </td>
@@ -139,7 +157,7 @@
             <!-- Horimetro ou Odometro -->
             <label class="required-label">Horimetro/Odometro</label>
             <v-text-field
-              v-model="equip.HorimetroOuOdometro"
+              v-model="equip.horimetroOuOdometro"
               type="number"
               label="Valor"
               class="mb-4"
@@ -150,7 +168,7 @@
 
         <v-card-actions>
           <v-btn color="red" @click="dialogEdit = false">Cancelar</v-btn>
-          <v-btn color="green" @click="salvarEquipamento">Salvar</v-btn>
+          <v-btn color="green" @click="atualizarHorimetro">Salvar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -167,27 +185,28 @@
             <!-- Tipo de Equipamento -->
             <label class="required-label">Tipo de Equipamento</label>
             <v-text-field
-              v-model="equip.Tipo"
+              v-model="equip.tipo"
               type="text"
               label="Tipo de equipamento"
               class="mb-4"
               outlined
             ></v-text-field>
 
-            <!-- Id do Modelo -->
-            <label class="required-label">Modelo</label>
-            <v-text-field
-              v-model="equip.IdModelo"
-              type="text"
-              label="Modelo do Equipamento"
-              class="mb-4"
+            <!-- Seleção Modelo -->
+            <v-select
+              v-model="equip.idModelo"
+              :items="modelos"
+              item-title="tipo"
+              item-value="id"
+              label="Selecione o Modelo"
               outlined
-            ></v-text-field>
+              class="mb-4"
+            ></v-select>
 
             <!-- Horimetro ou Odometro -->
             <label class="required-label">Horimetro/Odometro</label>
             <v-text-field
-              v-model="equip.HorimetroOuOdometro"
+              v-model="equip.horimetroOuOdometro"
               type="number"
               label="Valor"
               class="mb-4"

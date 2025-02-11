@@ -41,8 +41,8 @@ export default class EquipamentoRepository {
         const baseRoute = this.createBaseRoute();
 
         const response = await this.apiClient.get(baseRoute);
-        
-        return response.data.map((equipamento: IEquipamento) => new Equipamento(equipamento.Id, equipamento.Tipo, equipamento.IdModelo, equipamento.HorimetroOuOdometro));
+
+        return response.data.map((equipamento: IEquipamento) => new Equipamento(equipamento.id, equipamento.tipo, equipamento.idModelo, equipamento.horimetroOuOdometro));
     } catch (error) {
       console.error("Erro ao buscar equipamentos", error);
       throw error;
@@ -79,7 +79,7 @@ export default class EquipamentoRepository {
     try {
       const updatedata = `${this.createBaseRoute()}/${Id}/horimetro-ou-odometro`;
 
-      const response = await this.apiClient.post(updatedata, {data});
+      const response = await this.apiClient.put(updatedata, {data});
 
       return response;
     } catch (error) {
@@ -100,5 +100,5 @@ export default class EquipamentoRepository {
       throw error;
     }
   }
-  
+
 }

@@ -1,6 +1,5 @@
 import type { IOrdemServico} from '@/model/OrdemServico';
 import OrdemServicoRepository from '@/model/repositories/OrdemServicoRepository';
-import type { IItem } from '@/model/Item';
 
 export default class OrdemServicoController {
   OrdemServicoRepository;
@@ -16,14 +15,11 @@ export default class OrdemServicoController {
     return await this.OrdemServicoRepository.abrir(form);
   }
 
-  async adicionarItem(form: IItem) {
-    return await this.OrdemServicoRepository.adicionarItem(form);
+  async getOrdem(Id: number) {
+    return await this.OrdemServicoRepository.getOrdem(Id);
   }
 
-  async removerItem() {
-    return await this.OrdemServicoRepository.removerItem();
-  }
-  async listarItens() {
-    return await this.OrdemServicoRepository.listarItens();
+  async listOrdens() {
+    return await this.OrdemServicoRepository.listOrdens();
   }
 }

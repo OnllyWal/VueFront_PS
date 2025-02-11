@@ -11,6 +11,10 @@ export default class ManutencaoController {
     return await this.ManutencaoRepository.obterManutencao(Id);
   }
 
+  async listarManutencoes() {
+    return await this.ManutencaoRepository.listarManutencoes();
+  }
+
   async cadastrarManutencao(form : IManutencao) {
     return await this.ManutencaoRepository.cadastrarManutencao(form);
   }

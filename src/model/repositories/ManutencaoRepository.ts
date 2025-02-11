@@ -21,35 +21,48 @@ export default class ManutencaoRepository {
   async obterManutencao(Id: number) {
       try {
           const baseRoute = `${this.createBaseRoute()}/${Id}`;
-  
+
           const response = await this.apiClient.get(baseRoute);
-  
-          return new Manutencao(response.data.Id, response.data.Tipo, response.data.Recorrencia, response.data.Status, response.data.Itens);
+
+          return new Manutencao(response.data.id, response.data.tipo, response.data.recorrencia, response.data.status, response.data.itens);
         } catch (error) {
         console.error("Erro ao buscar Manutencao", error);
         throw error;
       }
     }
-  
+
+    async listarManutencoes(){
+      try {
+        const baseRoute = this.createBaseRoute();
+
+        const response = await this.apiClient.get(baseRoute);
+
+        return response.data.map((manutencao: IManutencao) => new Manutencao(manutencao.id, manutencao.tipo, manutencao.recorrencia, manutencao.status, manutencao.itens));
+      } catch (error) {
+        console.error("Erro ao buscar Itens", error);
+        throw error
+      }
+    }
+
     async cadastrarManutencao(form: IManutencao) {
         try {
             const baseRoute = this.createBaseRoute();
-    
+
             const response = await this.apiClient.post(baseRoute, form);
-    
+
             return response;
         } catch (error) {
           console.error("Erro ao criar Manutencao", error);
           throw error;
         }
       }
-    
+
     async excluirManutencao(Id: number) {
       try {
         const deleteRoute = this.createDeleteRoute(Id);
-  
+
         const response = await this.apiClient.delete(deleteRoute);
-  
+
         return response;
       } catch (error) {
         console.error("Erro ao deletar manutencao", error);
@@ -59,7 +72,7 @@ export default class ManutencaoRepository {
 
     async adicionarItem(Id: number, IdItem: number) {
       try {
-        const baseRoute = `${this.createBaseRoute()}/${Id}/item`;
+        const baseRoute = `${this.createBaseRoute()}/${Id}/${IdItem}`;
 
         const response = await this.apiClient.post(baseRoute, IdItem);
 
